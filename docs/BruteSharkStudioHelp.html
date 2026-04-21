@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BruteShark Studio Help</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f4f7fb;
+            --panel: #ffffff;
+            --panel-alt: #eef3fb;
+            --text: #1f2a37;
+            --muted: #5b6777;
+            --line: #d4dce7;
+            --accent: #0b6aa2;
+            --accent-strong: #0a4f79;
+            --nav-bg: #16212b;
+            --nav-text: #e8eef5;
+            --nav-muted: #a9b6c4;
+            --shadow: 0 16px 40px rgba(22, 33, 43, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--accent);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 280px minmax(0, 1fr);
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 28px 22px;
+            background: var(--nav-bg);
+            color: var(--nav-text);
+        }
+
+        .sidebar h1 {
+            margin: 0 0 10px;
+            font-size: 28px;
+            line-height: 1.2;
+        }
+
+        .sidebar p {
+            margin: 0 0 20px;
+            color: var(--nav-muted);
+            font-size: 14px;
+        }
+
+        .sidebar .repo-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #7fd0ff;
+            text-decoration: none;
+        }
+
+        .nav-group {
+            margin-bottom: 22px;
+        }
+
+        .nav-group h2 {
+            margin: 0 0 8px;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--nav-muted);
+        }
+
+        .nav-group a {
+            display: block;
+            padding: 8px 10px;
+            margin: 4px 0;
+            border-radius: 6px;
+            color: var(--nav-text);
+            text-decoration: none;
+        }
+
+        .nav-group a:hover,
+        .nav-group a:focus {
+            background: rgba(255, 255, 255, 0.08);
+            outline: none;
+        }
+
+        .content {
+            padding: 32px;
+        }
+
+        .hero,
+        .section,
+        .callout,
+        .tab-shell {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero {
+            padding: 28px 30px;
+            margin-bottom: 24px;
+        }
+
+        .hero h2 {
+            margin: 0 0 10px;
+            font-size: 34px;
+            line-height: 1.15;
+        }
+
+        .hero p {
+            margin: 0;
+            max-width: 900px;
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        .summary-card {
+            padding: 16px;
+            background: var(--panel-alt);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+        }
+
+        .summary-card h3 {
+            margin: 0 0 8px;
+            font-size: 16px;
+        }
+
+        .summary-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .section {
+            padding: 24px 26px;
+            margin-bottom: 24px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .section h3 {
+            margin-top: 22px;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .section p,
+        .section li {
+            color: var(--text);
+        }
+
+        .section .muted {
+            color: var(--muted);
+        }
+
+        .callout {
+            padding: 16px 18px;
+            margin: 16px 0;
+            background: #f8fbff;
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .image-frame {
+            margin: 18px 0;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #dfe7f2;
+        }
+
+        .image-frame img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .caption {
+            padding: 10px 14px;
+            background: var(--panel-alt);
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .tab-shell {
+            overflow: hidden;
+            margin: 18px 0;
+        }
+
+        .tab-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+            border-bottom: 1px solid var(--line);
+            background: var(--panel-alt);
+        }
+
+        .tab-button {
+            appearance: none;
+            border: 0;
+            border-right: 1px solid var(--line);
+            background: transparent;
+            color: var(--text);
+            padding: 14px 16px;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .tab-button[aria-selected="true"] {
+            background: var(--panel);
+            color: var(--accent-strong);
+            font-weight: 600;
+        }
+
+        .tab-panel {
+            display: none;
+            padding: 22px 24px;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        pre {
+            margin: 14px 0;
+            padding: 14px 16px;
+            overflow-x: auto;
+            background: #111822;
+            color: #e8eef5;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--line);
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: var(--panel-alt);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .footer-note {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        @media (max-width: 1100px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+                height: auto;
+            }
+
+            .summary-grid,
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <h1>BruteShark Studio</h1>
+            <p>Desktop and CLI help for capture analysis, evidence extraction, session reconstruction, and Hashcat workflows.</p>
+            <a class="repo-link" href="https://github.com/Ayman-Elbanhawy/BruteSharkStudio">GitHub Repository</a>
+
+            <nav>
+                <div class="nav-group">
+                    <h2>Overview</h2>
+                    <a href="#overview">Product Overview</a>
+                    <a href="#quick-start">Quick Start</a>
+                    <a href="#screens">Screens</a>
+                </div>
+                <div class="nav-group">
+                    <h2>Desktop</h2>
+                    <a href="#desktop-workflow">Desktop Workflow</a>
+                    <a href="#desktop-tabs">Desktop Views</a>
+                    <a href="#exporting">Exporting Results</a>
+                </div>
+                <div class="nav-group">
+                    <h2>Hashcat</h2>
+                    <a href="#hashcat">Hashcat Integration</a>
+                    <a href="#hashcat-modes">Supported Modes</a>
+                </div>
+                <div class="nav-group">
+                    <h2>CLI</h2>
+                    <a href="#cli">CLI Usage</a>
+                    <a href="#modules">Modules</a>
+                </div>
+                <div class="nav-group">
+                    <h2>Install</h2>
+                    <a href="#installer">Installer and PATH</a>
+                    <a href="#build">Build and Release</a>
+                    <a href="#troubleshooting">Troubleshooting</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <section class="hero" id="overview">
+                <h2>Professional Help Guide</h2>
+                <p>
+                    BruteShark Studio is a desktop-focused network forensic analysis toolkit for reviewing packet captures,
+                    extracting credentials and hashes, reconstructing TCP and UDP sessions, exporting investigation artifacts,
+                    and running Hashcat directly from the desktop or CLI.
+                </p>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <h3>Interactive Desktop</h3>
+                        <p>Load captures, choose analysis modules, inspect results, export evidence, and run Hashcat from the hashes view.</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Automation-Friendly CLI</h3>
+                        <p>Run the same analysis pipeline from the command line for repeatable batch work and scripting.</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Installer with Hashcat</h3>
+                        <p>The Windows installer packages Hashcat and appends the installed Hashcat folder to machine PATH during elevated setup.</p>
+                    </div>
+                </div>
+
+                <div class="callout">
+                    <strong>Installer download</strong>
+                    Repository ZIP package: <a href="../release/BruteSharkDesktopStudioInstaller.zip">BruteSharkDesktopStudioInstaller.zip</a><br>
+                    GitHub download after push: <a href="https://github.com/Ayman-Elbanhawy/BruteSharkStudio/blob/main/release/BruteSharkDesktopStudioInstaller.zip?raw=1">github.com/Ayman-Elbanhawy/BruteSharkStudio/blob/main/release/BruteSharkDesktopStudioInstaller.zip?raw=1</a>
+                </div>
+            </section>
+
+            <section class="section" id="quick-start">
+                <h2>Quick Start</h2>
+                <ol>
+                    <li>Install or build BruteShark Desktop Studio.</li>
+                    <li>Launch the desktop application.</li>
+                    <li>Add one or more `.pcap` or `.pcapng` files.</li>
+                    <li>Select the modules you need.</li>
+                    <li>Leave TCP and UDP session reconstruction enabled unless you explicitly want faster but shallower analysis.</li>
+                    <li>Click <strong>Run</strong>.</li>
+                    <li>Review the result views from the module tree.</li>
+                    <li>Use the <strong>Hashes</strong> view to export Hashcat files or run <strong>Crack with Hashcat</strong>.</li>
+                </ol>
+
+                <div class="callout">
+                    <strong>Recommended default</strong>
+                    For full capability coverage, enable the Credentials, Network Map, DNS, File Extracting, and VoIP modules together with both TCP and UDP session reconstruction.
+                </div>
+            </section>
+
+            <section class="section" id="screens">
+                <h2>Current Application Screens</h2>
+
+                <div class="image-frame">
+                    <img src="../readme_media/BruteSharkDesktopStudio_Main.png" alt="BruteShark Desktop Studio main window">
+                    <div class="caption">Main desktop workflow with the module tree, file list, and processing controls.</div>
+                </div>
+
+                <div class="image-frame">
+                    <img src="../readme_media/BruteSharkDesktopStudio_Hashes.png" alt="BruteShark Desktop Studio hashes view">
+                    <div class="caption">Hashes view showing the built-in Hashcat export and cracking workflow.</div>
+                </div>
+            </section>
+
+            <section class="section" id="desktop-workflow">
+                <h2>Desktop Workflow</h2>
+                <div class="two-col">
+                    <div>
+                        <h3>1. Load Capture Files</h3>
+                        <p>Use the file picker to add one or more saved captures into the pending list. The desktop app tracks file state while processing so you can identify failed or completed items quickly.</p>
+
+                        <h3>2. Choose Modules</h3>
+                        <p>Enable only the modules you need when working with large captures, but keep session reconstruction enabled if you want file carving, UDP session review, or richer protocol context.</p>
+
+                        <h3>3. Run Analysis</h3>
+                        <p>The processor and analyzer run in the background while the UI remains responsive. Result views update as parsed items are detected.</p>
+                    </div>
+                    <div>
+                        <h3>4. Review Results</h3>
+                        <p>Open the module nodes to inspect passwords, hashes, network maps, sessions, files, DNS responses, and VoIP calls.</p>
+
+                        <h3>5. Export Evidence</h3>
+                        <p>The export flow writes carved files, network map JSON, DNS mappings, VoIP data, and Hashcat-ready hash files into one output directory.</p>
+
+                        <h3>6. Check for Updates</h3>
+                        <p>The desktop build checks GitHub releases for <code>Ayman-Elbanhawy/BruteSharkStudio</code> and prompts when a newer release exists.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="desktop-tabs">
+                <h2>Desktop Views</h2>
+                <div class="tab-shell" data-tabs>
+                    <div class="tab-bar" role="tablist" aria-label="Desktop views">
+                        <button class="tab-button" role="tab" aria-selected="true" data-tab="view-passwords">Passwords</button>
+                        <button class="tab-button" role="tab" aria-selected="false" data-tab="view-hashes">Hashes</button>
+                        <button class="tab-button" role="tab" aria-selected="false" data-tab="view-network">Network Map</button>
+                        <button class="tab-button" role="tab" aria-selected="false" data-tab="view-sessions">Sessions</button>
+                        <button class="tab-button" role="tab" aria-selected="false" data-tab="view-data">Files, DNS, VoIP</button>
+                    </div>
+
+                    <div class="tab-panel active" id="view-passwords">
+                        <h3>Passwords</h3>
+                        <p>Displays extracted credentials from supported clear-text or recoverable protocols. The network map view also uses these parsed identities to enrich endpoint context.</p>
+                    </div>
+
+                    <div class="tab-panel" id="view-hashes">
+                        <h3>Hashes</h3>
+                        <p>Displays extracted authentication hashes, allows review of detailed properties, exports hashes in Hashcat format, and can run Hashcat directly with a selected wordlist.</p>
+                    </div>
+
+                    <div class="tab-panel" id="view-network">
+                        <h3>Network Map</h3>
+                        <p>Builds a visual network graph from observed endpoints, services, open ports, identities, and DNS-enriched relationships.</p>
+                    </div>
+
+                    <div class="tab-panel" id="view-sessions">
+                        <h3>Sessions</h3>
+                        <p>Shows reconstructed TCP and UDP sessions. This is important for deeper analysis, file carving, and protocol review beyond single-packet inspection.</p>
+                    </div>
+
+                    <div class="tab-panel" id="view-data">
+                        <h3>Files, DNS, and VoIP</h3>
+                        <p>Provides access to carved files, DNS responses, and extracted VoIP calls so you can export evidence or continue manual review outside the application.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="hashcat">
+                <h2>Hashcat Integration</h2>
+                <p>
+                    BruteShark Studio supports both hash export and direct cracking workflows. The desktop application can resolve Hashcat from an explicit path, from the installer-bundled <code>Hashcat</code> directory, or from the system PATH.
+                </p>
+
+                <div class="tab-shell" data-tabs>
+                    <div class="tab-bar" role="tablist" aria-label="Hashcat workflow">
+                        <button class="tab-button" role="tab" aria-selected="true" data-tab="hashcat-gui">Desktop GUI</button>
+                        <button class="tab-button" role="tab" aria-selected="false" data-tab="hashcat-cli">CLI</button>
+                        <button class="tab-button" role="tab" aria-selected="false" data-tab="hashcat-installer">Installer</button>
+                    </div>
+
+                    <div class="tab-panel active" id="hashcat-gui">
+                        <h3>Desktop GUI Workflow</h3>
+                        <ol>
+                            <li>Open the <strong>Hashes</strong> node after analysis completes.</li>
+                            <li>Select a hash type.</li>
+                            <li>Choose an output directory.</li>
+                            <li>Optionally select a specific <code>hashcat.exe</code>.</li>
+                            <li>Select a wordlist.</li>
+                            <li>Optionally add extra Hashcat arguments.</li>
+                            <li>Click <strong>Crack with Hashcat</strong>.</li>
+                        </ol>
+                        <p>The result dialog reports exit code, mode, input file, output file, recovered hashes, and Hashcat stderr output.</p>
+                    </div>
+
+                    <div class="tab-panel" id="hashcat-cli">
+                        <h3>CLI Workflow</h3>
+                        <pre><code>BruteSharkDesktopStudioCli -m Credentials -d C:\Captures -o C:\Results --hashcat-wordlist C:\Wordlists\rockyou.txt</code></pre>
+                        <p>If Hashcat is not installed in PATH, pass a fully qualified executable path:</p>
+                        <pre><code>BruteSharkDesktopStudioCli -m Credentials -d C:\Captures -o C:\Results --hashcat-path C:\Tools\hashcat\hashcat.exe --hashcat-wordlist C:\Wordlists\rockyou.txt</code></pre>
+                    </div>
+
+                    <div class="tab-panel" id="hashcat-installer">
+                        <h3>Installer Integration</h3>
+                        <p>The Windows MSI includes a staged Hashcat release under the app install directory and appends the installed Hashcat folder to machine PATH during elevated installation. This lets the desktop and CLI resolve Hashcat without a separate manual install in the common case.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="hashcat-modes">
+                <h2>Supported Hashcat Modes</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hash Type</th>
+                            <th>Hashcat Mode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>HTTP Digest</td><td>11400</td></tr>
+                        <tr><td>CRAM-MD5</td><td>16400</td></tr>
+                        <tr><td>NTLMv1</td><td>5500</td></tr>
+                        <tr><td>NTLMv2</td><td>5600</td></tr>
+                        <tr><td>Kerberos AS-REQ etype 23</td><td>7500</td></tr>
+                        <tr><td>Kerberos AS-REP etype 23</td><td>18200</td></tr>
+                        <tr><td>Kerberos TGS-REP etype 23</td><td>13100</td></tr>
+                        <tr><td>Kerberos TGS-REP etype 17</td><td>19600</td></tr>
+                        <tr><td>Kerberos TGS-REP etype 18</td><td>19700</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="section" id="cli">
+                <h2>CLI Usage</h2>
+                <p>The CLI provides the same core analysis pipeline for batch work, automation, and out-of-process integrations like the Wireshark plugin.</p>
+
+                <pre><code>BruteSharkDesktopStudioCli --help</code></pre>
+
+                <h3>Process a Directory and Export Results</h3>
+                <pre><code>BruteSharkDesktopStudioCli -m Credentials,NetworkMap,FileExtracting,DNS -d C:\Captures -o C:\Results</code></pre>
+
+                <h3>Live Capture Example</h3>
+                <pre><code>BruteSharkDesktopStudioCli -l Wi-Fi -m Credentials,NetworkMap,FileExtracting,DNS -o C:\Results</code></pre>
+            </section>
+
+            <section class="section" id="modules">
+                <h2>Modules</h2>
+                <div class="tab-shell" data-tabs>
+                    <div class="tab-bar" role="tablist" aria-label="Modules">
+                        <button class="tab-button" role="tab" aria-selected="true" data-tab="module-credentials">Credentials</button>
+                        <button class="tab-button" role="tab" aria-selected="false" data-tab="module-network">Network Map</button>
+                        <button class="tab-button" role="tab" aria-selected="false" data-tab="module-dns">DNS</button>
+                        <button class="tab-button" role="tab" aria-selected="false" data-tab="module-files">File Extracting</button>
+                        <button class="tab-button" role="tab" aria-selected="false" data-tab="module-voip">VoIP</button>
+                    </div>
+
+                    <div class="tab-panel active" id="module-credentials">
+                        <h3>Credentials Module</h3>
+                        <p>Extracts usernames, passwords, and authentication hashes. This is the module required for Hashcat export and direct cracking.</p>
+                    </div>
+
+                    <div class="tab-panel" id="module-network">
+                        <h3>Network Map Module</h3>
+                        <p>Builds endpoint relationships and exports network topology data for direct review or use in external graph tooling.</p>
+                    </div>
+
+                    <div class="tab-panel" id="module-dns">
+                        <h3>DNS Module</h3>
+                        <p>Collects DNS answers and name mappings that enrich the network view and export set.</p>
+                    </div>
+
+                    <div class="tab-panel" id="module-files">
+                        <h3>File Extracting Module</h3>
+                        <p>Carves supported file formats from traffic, especially when TCP and UDP session reconstruction is enabled.</p>
+                    </div>
+
+                    <div class="tab-panel" id="module-voip">
+                        <h3>VoIP Module</h3>
+                        <p>Extracts SIP and RTP call information and can export audio artifacts for external review.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="exporting">
+                <h2>Exporting Results</h2>
+                <p>The desktop export flow writes a structured results folder containing:</p>
+                <ul>
+                    <li>carved files</li>
+                    <li>network map and node data</li>
+                    <li>DNS mappings</li>
+                    <li>VoIP exports</li>
+                    <li>Hashcat-ready hash files grouped by hash type</li>
+                </ul>
+                <p>Use one export directory per case to keep evidence grouped cleanly.</p>
+            </section>
+
+            <section class="section" id="installer">
+                <h2>Installer and PATH</h2>
+                <p>
+                    The MSI is built as <code>BruteSharkDesktopStudioInstaller.msi</code> and installs the desktop application together with the staged Hashcat payload.
+                </p>
+
+                <p>
+                    For the public repository, the installer is also packaged as
+                    <code>BruteSharkDesktopStudioInstaller.zip</code> so it can be downloaded from the repo as a compressed artifact.
+                </p>
+
+                <div class="callout">
+                    <strong>Administrator requirement</strong>
+                    The installer is per-machine and writes to Program Files and machine PATH. Run it elevated if you want the bundled Hashcat folder appended to system PATH.
+                </div>
+
+                <pre><code>dotnet msbuild .\BruteSharkStudio\BruteSharkDesktopInstaller\BruteSharkDesktopInstaller.wixproj /t:Build /p:Configuration=Debug /p:Platform=x86 /v:minimal</code></pre>
+
+                <pre><code>Compress-Archive -LiteralPath .\BruteSharkStudio\BruteSharkDesktopInstaller\bin\Debug\BruteSharkDesktopStudioInstaller.msi -DestinationPath .\release\BruteSharkDesktopStudioInstaller.zip</code></pre>
+            </section>
+
+            <section class="section" id="build">
+                <h2>Build and Release</h2>
+                <h3>Build the Solution</h3>
+                <pre><code>$env:DOTNET_CLI_HOME = "$PWD\.dotnet-home"
+dotnet build .\BruteSharkStudio\PcapProcessor.sln -v:minimal</code></pre>
+
+                <h3>Run Tests</h3>
+                <pre><code>dotnet test .\BruteSharkStudio\PcapProcessor.sln -v:minimal</code></pre>
+
+                <h3>Run the Desktop Application</h3>
+                <pre><code>dotnet run --project .\BruteSharkStudio\BruteSharkDesktop\BruteSharkDesktop.csproj</code></pre>
+
+                <h3>Run the CLI Help</h3>
+                <pre><code>dotnet run --project .\BruteSharkStudio\BruteSharkCli\BruteSharkCli.csproj -- --help</code></pre>
+            </section>
+
+            <section class="section" id="troubleshooting">
+                <h2>Troubleshooting</h2>
+                <h3>Hashcat Does Not Start</h3>
+                <ul>
+                    <li>Verify that the selected wordlist exists.</li>
+                    <li>If you override the Hashcat path, choose the actual <code>hashcat.exe</code>.</li>
+                    <li>If the app is installed through the MSI, run the installer elevated so the bundled Hashcat folder is added to machine PATH.</li>
+                </ul>
+
+                <h3>Some Files Fail to Analyze</h3>
+                <p>The desktop app reports failed files after processing. For some PCAPNG compatibility issues, converting to plain PCAP can help.</p>
+                <pre><code>tshark -F pcap -r input.pcapng -w output.pcap</code></pre>
+
+                <h3>Large Captures Feel Slow</h3>
+                <p>Disable modules you do not need, but keep in mind that turning off session reconstruction reduces capability coverage for sessions, file carving, and some protocol analysis.</p>
+
+                <p class="footer-note">
+                    Repository: <a href="https://github.com/Ayman-Elbanhawy/BruteSharkStudio">github.com/Ayman-Elbanhawy/BruteSharkStudio</a><br>
+                    License: GNU General Public License v3.0
+                </p>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        (function () {
+            const tabShells = document.querySelectorAll('[data-tabs]');
+
+            tabShells.forEach((shell, shellIndex) => {
+                const buttons = shell.querySelectorAll('.tab-button');
+                const panels = shell.querySelectorAll('.tab-panel');
+
+                buttons.forEach((button, index) => {
+                    button.addEventListener('click', () => {
+                        const targetId = button.getAttribute('data-tab');
+
+                        buttons.forEach((btn) => btn.setAttribute('aria-selected', 'false'));
+                        panels.forEach((panel) => panel.classList.remove('active'));
+
+                        button.setAttribute('aria-selected', 'true');
+                        const target = shell.querySelector('#' + targetId);
+                        if (target) {
+                            target.classList.add('active');
+                        }
+                    });
+
+                    if (shellIndex > 0 && index === 0) {
+                        button.setAttribute('aria-selected', 'true');
+                    }
+                });
+            });
+        }());
+    </script>
+</body>
+</html>
